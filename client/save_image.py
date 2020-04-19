@@ -1,6 +1,6 @@
 import psycopg2
 
-from config import config
+from client.config import config
 
 
 def write_blob(part_id, path_to_file, file_extension):
