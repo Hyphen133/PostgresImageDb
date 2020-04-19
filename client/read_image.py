@@ -3,7 +3,7 @@ import psycopg2
 from client.config import config
 
 
-def read_blob(id, path_to_dir):
+def read_blob(id, out_filepath):
     """ read BLOB data from a table """
     conn = None
     try:
@@ -20,7 +20,7 @@ def read_blob(id, path_to_dir):
                     (id,))
 
         blob = cur.fetchone()
-        open(path_to_dir + blob[0] + '.' + blob[1], 'wb').write(blob[2])
+        open(out_filepath, 'wb').write(blob)
         # close the communication with the PostgresQL database
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:

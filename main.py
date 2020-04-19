@@ -1,6 +1,10 @@
+import random
+
 from client.read_image import read_blob
 from client.save_image import write_blob
 
 
-write_blob("12", "test_images/lenna.png", ".png")
-read_blob("12", "out.png")
+id = str(random.getrandbits(60))
+
+write_blob(id, "test_images/lenna.png", ".png")
+read_blob(id, "out.png")
