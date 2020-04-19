@@ -1,3 +1,4 @@
+CREATE DATABASE szabadaba;
 
 CREATE TABLE public."Image"
 (
