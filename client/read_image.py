@@ -1,3 +1,5 @@
+from array import array
+
 import psycopg2
 
 from client.config import config
@@ -20,7 +22,7 @@ def read_blob(id, out_filepath):
                     (id,))
 
         blob = cur.fetchone()
-        open(out_filepath, 'wb').write(blob)
+        open(out_filepath, 'wb').write(blob[0].tobytes())
         # close the communication with the PostgresQL database
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
