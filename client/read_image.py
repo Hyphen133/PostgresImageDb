@@ -1,32 +1,28 @@
-from array import array
-
 import psycopg2
 
 from client.config import config
+from client.query_base import QueryBase
 
 
-def read_blob(id, out_filepath):
-    """ read BLOB data from a table """
-    conn = None
-    try:
-        # read database configuration
-        params = config()
-        # connect to the PostgresQL database
-        conn = psycopg2.connect(**params)
-        # create a new cursor object
-        cur = conn.cursor()
-        # execute the SELECT statement
-        cur.execute(""" SELECT image
-                        FROM \"public\".\"Image\"
-                        WHERE id = %s """,
-                    (id,))
+class ImageReadQuery(QueryBase):
+    def __init__(self, id) -> None:
+        super().__init__()
+        self.id = id
 
-        blob = cur.fetchone()
-        open(out_filepath, 'wb').write(blob[0].tobytes())
-        # close the communication with the PostgresQL database
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            conn.close()
+    def execute_query(self):
+        self.cursor.execute(""" SELECT image
+                                FROM public."Image"
+                                WHERE id = %s """,
+                    (self.id,))
+
+        return self.cursor.fetchone()[0].tobytes()
+
+    @staticmethod
+    def create_query(id):
+        return ImageReadQuery(id)
+
+
+def save_image_from_bytes_locally(image_bytes, out_filepath):
+    open(out_filepath, 'wb').write(image_bytes)
+
+
