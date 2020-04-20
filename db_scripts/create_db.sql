@@ -14,7 +14,7 @@ ALTER TABLE public."Image"
 CREATE TABLE public."Tag"
 (
     id bigint NOT NULL,
-    name character varying[] NOT NULL,
+    name character varying(40) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -35,8 +35,8 @@ ALTER TABLE public."ImageTag"
 CREATE TABLE public."Dataset"
 (
     id bigint NOT NULL,
-    name character varying[] NOT NULL,
-    description character varying[] NOT NULL,
+    name character varying(40) NOT NULL,
+    description character varying(40) NOT NULL,
     PRIMARY KEY (id)
 );
 
