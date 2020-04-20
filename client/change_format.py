@@ -9,30 +9,28 @@ from client.read_image import ImageReadQuery
 
 
 class ChangeFormatQuery(QueryBase):
-    def __init__(self, id, target_format) -> None:
+    def __init__(self, image,id, target_format_extension, target_format_name) -> None:
         super().__init__()
         self.id = id
-        self.target_format = target_format
+        self.image = image
+        self.target_format_extension = target_format_extension
+        self.target_format_name = target_format_name
 
     def execute_query(self):
         super().execute_query()
-        new_blob = self.change_format(id, self.target_format)
+        new_blob = self.image_to_byte_array(self.image, self.target_format_name)
         self.cursor.execute(""" UPDATE public."Image"
                                 SET  image=%s, format=%s
                                 WHERE id=%s; """,
-                            (psycopg2.Binary(new_blob), self.target_format, self.id))
+                            (psycopg2.Binary(new_blob), self.target_format_extension, self.id))
         self.connection.commit()
 
-    def change_format(self, id, target_format):
-        blob = ImageReadQuery.create_query(id).execute()
-        blob_img = Image.open(io.BytesIO(blob))
-        return self.change_format_in_memory(blob_img, target_format)
-
-    def change_format_in_memory(self, im, format):
-        with io.BytesIO() as f:
-            im.save(f, format=format)
-            return f.getvalue()
+    def image_to_byte_array(self,image, target_format):
+        imgByteArr = io.BytesIO()
+        image.save(imgByteArr, format=target_format)
+        imgByteArr = imgByteArr.getvalue()
+        return imgByteArr
 
     @staticmethod
-    def create_query(id, target_format):
-        return ChangeFormatQuery(id, target_format)
+    def create_query(image,id, target_format_extension, target_format_name):
+        return ChangeFormatQuery(image,id, target_format_extension, target_format_name)

@@ -1,4 +1,7 @@
 import random
+import time
+
+from PIL import Image
 
 from client.change_format import ChangeFormatQuery
 from client.read_image import save_image_from_bytes_locally, ImageReadQuery
@@ -10,5 +13,6 @@ id = str(random.getrandbits(60))
 ImageWriteQuery.create_query(id, "test_images/lenna.png", ".png").execute()
 image_bytes = ImageReadQuery.create_query(id).execute()
 save_image_from_bytes_locally(image_bytes, "out.png")
-ChangeFormatQuery.create_query(id,"jpg").execute()
+image = Image.open("out.png")
+ChangeFormatQuery.create_query(image,id,".spi","SPIDER").execute()
 print(SelectQuery.create_query(id, selectAllTagsForDataset).execute())
