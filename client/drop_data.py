@@ -6,11 +6,11 @@ class DropDataQuery(QueryBase):
         super().__init__()
 
     def execute_query(self):
-        # self.cursor.execute(dropDataTag)
+        self.cursor.execute(dropDataTag)
         self.cursor.execute(dropDataImage)
         self.cursor.execute(dropDataDataset)
-        # self.cursor.execute(dropDataImageDataset)
-        # self.cursor.execute(dropDataImageTag)
+        self.cursor.execute(dropDataImageDataset)
+        self.cursor.execute(dropDataImageTag)
 
 
     @staticmethod
