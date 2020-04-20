@@ -11,9 +11,8 @@ from client.select_function import SelectQuery, selectAllTagsForDataset
 from client.write_image import ImageWriteQuery
 
 id = str(random.getrandbits(60))
-
 DropDataQuery.create_query().execute()
-# FillDataQuery.create_query().execute()
+FillDataQuery.create_query().execute()
 
 
 

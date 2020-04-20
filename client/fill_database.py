@@ -68,7 +68,7 @@ class FillDataQuery(QueryBase):
                 tag_idx = tag_idx + range_left
                 id = str(random.getrandbits(60))
                 self.cursor.execute("""
-                            INSERT INTO public."ImageTag"(id,imageId, tagId)
+                            INSERT INTO public."ImageTag"(id,"imageId", "tagId")
                             VALUES(%s,%s,%s)""",
                             (id, image_id, tag_ids[tag_idx]))
 
@@ -79,7 +79,7 @@ class FillDataQuery(QueryBase):
                 image_idx = tag_idx + range_left
                 id = str(random.getrandbits(60))
                 self.cursor.execute("""
-                            INSERT INTO public."ImageDataset"(id,imageId, datasetId)
+                            INSERT INTO public."ImageDataset"(id,"imageId", "datasetId")
                             VALUES(%s,%s,%s)""",
                             (id, image_ids[image_idx], dataset_id))
 

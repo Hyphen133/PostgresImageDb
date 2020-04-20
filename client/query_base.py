@@ -12,6 +12,7 @@ class QueryBase():
         try:
             self.create_cursor()
             result = self.execute_query()
+            self.connection.commit()
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:
