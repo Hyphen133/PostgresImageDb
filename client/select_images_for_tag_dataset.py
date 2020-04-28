@@ -16,7 +16,6 @@ class SelectImagesForTagsDatasetQuery(QueryBase):
     def create_query( tag_name, dataset_name):
         return SelectImagesForTagsDatasetQuery( tag_name, dataset_name)
 
-# TODO
-query = lambda tag_name, dataset_name: "SELECT \"imageId\" FROM public.\"ImageDataset\" WHERE \"imageId\" IN (SELECT \"imageId\" FROM public.\"ImageTag\" WHERE name=\"" + tag_name + "\")"
+query = lambda tag_name, dataset_name: "SELECT DISTINCT \"imageId\" FROM public.\"ImageDataset\" WHERE \"imageId\" IN (SELECT \"imageId\" FROM public.\"ImageTag\" WHERE \"tagId\" = ( SELECT id FROM public.\"Tag\" WHERE name='" + tag_name + "') AND \"imageId\" IN (SELECT \"imageId\" FROM public.\"ImageDataset\"	WHERE \"datasetId\" = (	SELECT id FROM public.\"Dataset\" WHERE name='" + dataset_name + "')))"
 
 

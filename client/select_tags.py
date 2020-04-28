@@ -17,5 +17,6 @@ class SelectQuery(QueryBase):
 
 
 selectTags = """ SELECT name FROM public."Tag" """
+selectDatasets = """ SELECT name FROM public."Dataset" """
 
 
